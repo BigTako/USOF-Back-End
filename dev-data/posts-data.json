@@ -1,0 +1,55 @@
+[
+  {
+    "id": 1,
+    "author": 1,
+    "title": "To people who have also worked with multimillionaires or billionaires, what is something different they do from ordinary people?",
+    "categories": [
+      32
+    ],
+    "publishDate": "2015-08-02T00:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "author": 2,
+    "title": "How to use bootstrap with reactjs",
+    "content": "I'm a newbie in React.js and since I began to read documents and tutorials, I am not sure how does Bootstrap work with React.js.",
+    "categories": [
+      4,
+      7
+    ],
+    "publishDate": "2016-08-02T00:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "author": 3,
+    "title": "Can you explain what observable? click on the link for full question https://qr.ae/pKbuTN [closed]",
+    "content": "Can you explain what observable? click on the link for full question https://qr.ae/pKbuTN. Observables can be created using operators like of, from, or by transforming existing data structures into observables. Subscribers can then subscribe to these observables to receive and react to emitted values. This subscription mechanism allows components and services to stay informed about changes in the application's state.",
+    "categories": [
+      1,
+      5
+    ],
+    "publishDate": "2015-09-02T00:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "author": 4,
+    "title": "How do I get started with Node.js",
+    "content": "Are there any good resources to get started with Node.JS? Any good tutorials, blogs or books?",
+    "categories": [
+      1,
+      11,
+      32
+    ],
+    "publishDate": "2023-08-02T00:00:00.000Z"
+  },
+  {
+    "id": 5,
+    "author": 3,
+    "title": "Run function in script from command line (Node JS)",
+    "categories": [
+      1,
+      11,
+      32
+    ]
+  }
+]

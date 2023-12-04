@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "fullName": "John Doe",
+    "login": "john_doe",
+    "email": "john_doe@gmail.com",
+    "password": "123456ddddddddddd",
+    "passwordConfirm": "123456ddddddddddd",
+    "role": "user"
+  },
+  {
+    "id": 2,
+    "fullName": "Maikie",
+    "login": "maikie",
+    "email": "maikie@gmail.com",
+    "password": "123456ddddddddddd",
+    "passwordConfirm": "123456ddddddddddd",
+    "profilePicture": "https://i.pinimg.com/736x/76/0b/10/760b10d6882fc98b4f26f377ed7df102.jpg",
+    "role": "admin"
+  },
+  {
+    "id": 3,
+    "fullName": "Takemichi",
+    "login": "takemichi",
+    "email": "takemichi@gmail.com",
+    "password": "123456ddddddddddd",
+    "passwordConfirm": "123456ddddddddddd",
+    "profilePicture": "https://preview.redd.it/yyfrcoatja481.jpg?width=768&format=pjpg&auto=webp&s=600553041e377e619573d948f8e3617fe56d5ba8"
+  },
+  {
+    "id": 4,
+    "fullName": "Baji Keisuke",
+    "login": "baji",
+    "email": "baji@gmail.com",
+    "password": "123456ddddddddddd",
+    "passwordConfirm": "123456ddddddddddd",
+    "profilePicture": "https://thicc-af.mywaifulist.moe/waifus/keisuke-baji/pJSvUSOOy7DjGy3QS01nYGVBcHITg4aBPE2w94AF.jpg?class=thumbnail"
+  }
+]

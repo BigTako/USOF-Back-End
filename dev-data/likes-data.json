@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "author": 1,
+    "entity_id": 2,
+    "entity": "post",
+    "type": "like"
+  },
+  {
+    "id": 2,
+    "author": 4,
+    "entity_id": 2,
+    "entity": "post",
+    "type": "dislike"
+  },
+  {
+    "id": 3,
+    "author": 1,
+    "entity_id": 1,
+    "entity": "post",
+    "type": "like"
+  },
+  {
+    "id": 4,
+    "author": 1,
+    "entity_id": 2,
+    "entity": "post",
+    "type": "like"
+  },
+  {
+    "id": 5,
+    "author": 2,
+    "entity_id": 2,
+    "entity": "post",
+    "type": "dislike"
+  }
+]
