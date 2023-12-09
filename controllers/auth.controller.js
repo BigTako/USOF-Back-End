@@ -52,9 +52,7 @@ exports.createSendToken = (user, statusCode, res) => {
   res.status(statusCode).json({
     status: 'success',
     token,
-    data: {
-      user
-    }
+    data: user
   });
 };
 /**
@@ -91,9 +89,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
   });
 
   try {
-    const activationURL = `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/auth/activation/${newUser.accountActivationToken}`;
+    const activationURL = `${process.env.HOST}/account-activation/${newUser.accountActivationToken}`;
     await new Email(newUser, activationURL).sendWelcome(
       'Please, activate your accrount via URL below (token expires in 12 hours ).Activation URL:'
     );

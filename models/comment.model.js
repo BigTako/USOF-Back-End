@@ -68,7 +68,7 @@ Comment.findAllPopulated = async function(conditions, sort, paginate, fields) {
       {
         model: User,
         as: 'authorInfo',
-        attributes: ['id', 'login', 'email', 'profilePicture']
+        attributes: ['id', 'login', 'fullName', 'email', 'profilePicture']
       }
     ]
   });

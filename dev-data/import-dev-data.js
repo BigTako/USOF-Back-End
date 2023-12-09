@@ -52,11 +52,11 @@ const likes = JSON.parse(
 // IMPORT DATA INTO DB
 const importData = async () => {
   try {
-    await User.bulkCreate(users);
-    await Category.bulkCreate(categories);
-    await Post.bulkCreate(posts);
-    await Like.bulkCreate(likes);
-    await Comment.bulkCreate(comments);
+    await User.bulkCreate(users, { hooks: true });
+    await Category.bulkCreate(categories, { hooks: true });
+    await Post.bulkCreate(posts, { hooks: true });
+    await Like.bulkCreate(likes, { hooks: true });
+    await Comment.bulkCreate(comments, { hooks: true });
     console.log('Data successfully loaded!');
   } catch (err) {
     console.log(err);

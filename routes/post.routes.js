@@ -5,11 +5,15 @@ const router = express.Router();
 
 router.get('/', postController.getAllPosts);
 
-router.post('/', authController.protect, postController.createPost);
+router.post('/', postController.createPost);
+
+// query to get current user posts here
+router.get('/me', authController.protect, postController.getCurrentUserPosts);
+
 router
   .route('/:id')
   .get(postController.getPost)
-  .patch(authController.protect, postController.updatePost)
-  .delete(authController.protect, postController.deletePost);
+  .patch(postController.updatePost)
+  .delete(postController.deletePost);
 
 module.exports = router;

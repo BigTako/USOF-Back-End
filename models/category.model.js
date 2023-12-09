@@ -15,7 +15,7 @@ const Category = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
       validate: {
-        len: [4, 1024]
+        len: [0, 1024]
       }
     }
   },

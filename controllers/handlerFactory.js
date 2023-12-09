@@ -12,15 +12,18 @@ exports.getAll = Model =>
       .sort()
       .paginage()
       .getOptions();
+
     const docs = await Model.findAllPopulated(
       selectOptions.conditions,
       selectOptions.fields,
       selectOptions.sort,
       selectOptions.paginate
     );
+
+    // console.log(docs);
     await res.status(200).json({
       status: 'success',
-      data: docs
+      docs
     });
   });
 
@@ -34,7 +37,7 @@ exports.getOne = Model => {
       .getOptions();
     // const doc = await Model.findByPk(req.params.id);
     const [doc] = await Model.findAllPopulated(
-      selectOptions.conditions,
+      { ...selectOptions.conditions, id: req.params.id },
       selectOptions.fields,
       selectOptions.sort,
       selectOptions.paginate
@@ -44,7 +47,7 @@ exports.getOne = Model => {
     }
     await res.status(200).json({
       status: 'success',
-      data: doc
+      doc
     });
   });
 };
@@ -55,7 +58,7 @@ exports.createOne = Model =>
 
     await res.status(201).json({
       status: 'success',
-      data: doc
+      doc
     });
   });
 
@@ -74,16 +77,16 @@ exports.updateOne = (Model, allowedFields) =>
       filteredBody = req.body;
     }
 
-    if (req.user.role !== 'admin' && req.user.id !== doc.authorId) {
-      return next(
-        new AppError('You are not allowed to perform this action', 403)
-      );
-    }
+    // if (req.user.role !== 'admin' && req.user.id !== doc.authorId) {
+    //   return next(
+    //     new AppError('You are not allowed to perform this action', 403)
+    //   );
+    // }
 
     await doc.update(filteredBody);
     await res.status(200).json({
       status: 'success',
-      data: doc
+      doc
     });
   });
 
@@ -94,16 +97,19 @@ exports.deleteOne = Model =>
       return next(new AppError('No document found with that ID', 404));
     }
 
-    if (req.user.role !== 'admin' && req.user.id !== doc.authorId) {
-      return next(
-        new AppError('You are not allowed to perform this action', 403)
-      );
-    }
+    // if (
+    //   !req.user ||
+    //   (req.user.role !== 'admin' && req.user.id !== doc.authorId)
+    // ) {
+    //   return next(
+    //     new AppError('You are not allowed to perform this action', 403)
+    //   );
+    // }
 
     await doc.destroy();
     await res.status(204).json({
       status: 'success',
-      data: null
+      data: {}
     });
   });
 
@@ -126,8 +132,6 @@ exports.getEntityData = Model =>
     res.status(200).json({
       status: 'success',
       results: docs.length,
-      data: {
-        docs
-      }
+      docs
     });
   });

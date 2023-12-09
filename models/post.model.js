@@ -30,7 +30,7 @@ const Post = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
       validate: {
-        len: [4, 1024]
+        len: [0, 1024]
       }
     },
     categories: {
@@ -73,7 +73,15 @@ Post.findAllPopulated = function(conditions, fields, sort, paginate) {
       {
         model: User,
         as: 'authorInfo',
-        attributes: ['id', 'login', 'email', 'profilePicture']
+        attributes: [
+          'id',
+          'login',
+          'fullName',
+          'role',
+          'email',
+          'profilePicture',
+          'createdAt'
+        ]
       }
     ]
   });

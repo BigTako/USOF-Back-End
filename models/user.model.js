@@ -3,6 +3,7 @@
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { sequelize, Sequelize } = require('../models/index');
+const { USER } = require('../config/db.config');
 
 const User = sequelize.define(
   'user',
@@ -21,6 +22,11 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
       validate: { isEmail: true }
+    },
+    role: {
+      type: Sequelize.ENUM('user', 'admin'),
+      allowNull: false,
+      defaultValue: 'user'
     },
     profilePicture: {
       type: Sequelize.STRING,
@@ -105,6 +111,16 @@ User.correctPassword = async function(candidatePassword, userPassword) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
+// for carcade onjects inserting
+User.beforeBulkCreate(async (users, options) => {
+  for (let user of users) {
+    if (!user.changed('password')) continue;
+    user.password = await bcrypt.hash(user.password, 12);
+    user.passwordChangedAt = Date.now() - 1000; // subtract a second
+    user.passwordConfirm = ''; // set to undefined, because it`s raw password
+  }
+});
+
 User.beforeCreate(async (user, options) => {
   if (!user.changed('password')) return;
   user.password = await bcrypt.hash(user.password, 12);
@@ -169,10 +185,10 @@ User.findOneActive = async function(id) {
       'id',
       'login',
       'fullName',
+      'role',
       'email',
       'profilePicture',
-      'createdAt',
-      'rating'
+      'createdAt'
     ]
   });
 };
