@@ -1,8 +1,6 @@
 const Comment = require('../models/comment.model');
 const Like = require('../models/like.model');
 const Post = require('../models/post.model');
-const ApiFeatures = require('../utils/apiFeatures');
-const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 const handlerFactory = require('./handlerFactory');
@@ -58,56 +56,5 @@ exports.createLike = catchAsync(async (req, res, next) => {
 exports.updateLike = handlerFactory.updateOne(Like);
 exports.deleteLike = handlerFactory.deleteOne(Like);
 
-exports.getEntityLikes = handlerFactory.getEntityData(Like);
-
-exports.getPostLikes = catchAsync(async (req, res, next) => {
-  const selectOptions = new ApiFeatures(req.query)
-    .filter()
-    .limitFields()
-    .sort()
-    .paginage()
-    .getOptions();
-
-  const docs = await Like.findAllPopulated(
-    {
-      ...selectOptions.conditions,
-      entity: 'post',
-      entity_id: req.params.id
-    },
-    selectOptions.fields,
-    selectOptions.sort,
-    selectOptions.paginate
-  );
-
-  // console.log(docs);
-  await res.status(200).json({
-    status: 'success',
-    docs
-  });
-});
-
-exports.getCommentLikes = catchAsync(async (req, res, next) => {
-  const selectOptions = new ApiFeatures(req.query)
-    .filter()
-    .limitFields()
-    .sort()
-    .paginage()
-    .getOptions();
-
-  const docs = await Like.findAllPopulated(
-    {
-      ...selectOptions.conditions,
-      entity: 'comment',
-      entity_id: req.params.id
-    },
-    selectOptions.fields,
-    selectOptions.sort,
-    selectOptions.paginate
-  );
-
-  // console.log(docs);
-  await res.status(200).json({
-    status: 'success',
-    docs
-  });
-});
+exports.getEntityLikes = entityName =>
+  handlerFactory.getEntityData(Like, entityName);

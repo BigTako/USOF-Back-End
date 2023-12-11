@@ -1,7 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const ApiFeatures = require('../utils/apiFeatures');
-const Like = require('../models/like.model');
 const filtration = require('../utils/filtration');
 
 exports.getAll = Model =>
@@ -77,11 +76,11 @@ exports.updateOne = (Model, allowedFields) =>
       filteredBody = req.body;
     }
 
-    // if (req.user.role !== 'admin' && req.user.id !== doc.authorId) {
-    //   return next(
-    //     new AppError('You are not allowed to perform this action', 403)
-    //   );
-    // }
+    if (req.user.role !== 'admin' && req.user.id !== doc.authorId) {
+      return next(
+        new AppError('You are not allowed to perform this action', 403)
+      );
+    }
 
     await doc.update(filteredBody);
     await res.status(200).json({
@@ -97,14 +96,14 @@ exports.deleteOne = Model =>
       return next(new AppError('No document found with that ID', 404));
     }
 
-    // if (
-    //   !req.user ||
-    //   (req.user.role !== 'admin' && req.user.id !== doc.authorId)
-    // ) {
-    //   return next(
-    //     new AppError('You are not allowed to perform this action', 403)
-    //   );
-    // }
+    if (
+      !req.user ||
+      (req.user.role !== 'admin' && req.user.id !== doc.authorId)
+    ) {
+      return next(
+        new AppError('You are not allowed to perform this action', 403)
+      );
+    }
 
     await doc.destroy();
     await res.status(204).json({
@@ -113,7 +112,13 @@ exports.deleteOne = Model =>
     });
   });
 
-exports.getEntityData = Model =>
+/**
+ *
+ * @param {*} Model - Model of objects wanted to be get(whose who has entity_id)
+ * @param {*} entityName - name of entity to be get post/comment
+ * @returns
+ */
+exports.getEntityData = (Model, entityName) =>
   catchAsync(async (req, res, next) => {
     const selectOptions = new ApiFeatures(req.query)
       .filter()
@@ -123,15 +128,19 @@ exports.getEntityData = Model =>
       .getOptions();
 
     const docs = await Model.findAllPopulated(
-      { ...selectOptions.conditions, entity_id: req.params.id },
+      {
+        ...selectOptions.conditions,
+        entity: entityName.toLowerCase(),
+        entity_id: req.params.id
+      },
       selectOptions.fields,
       selectOptions.sort,
       selectOptions.paginate
     );
 
-    res.status(200).json({
+    // console.log(docs);
+    await res.status(200).json({
       status: 'success',
-      results: docs.length,
       docs
     });
   });

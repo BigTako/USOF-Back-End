@@ -3,10 +3,8 @@ const likeController = require('./../controllers/like.controller');
 const authController = require('./../controllers/auth.controller');
 const router = express.Router();
 
-router.get('/post/:id', likeController.getPostLikes);
-router.get('/comment/:id', likeController.getCommentLikes);
-
-// router.get('/:id/likes', likeController.getEntityLikes);
+router.get('/post/:id', likeController.getEntityLikes('post'));
+router.get('/comment/:id', likeController.getEntityLikes('comment'));
 
 router.use(authController.protect);
 
