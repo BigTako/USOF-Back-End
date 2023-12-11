@@ -55,8 +55,8 @@ const importData = async () => {
     await User.bulkCreate(users, { hooks: true });
     await Category.bulkCreate(categories, { hooks: true });
     await Post.bulkCreate(posts, { hooks: true });
-    await Like.bulkCreate(likes, { hooks: true });
     await Comment.bulkCreate(comments, { hooks: true });
+    await Like.bulkCreate(likes, { hooks: true });
     console.log('Data successfully loaded!');
   } catch (err) {
     console.log(err);
@@ -68,10 +68,19 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await Post.destroy({ where: {} });
+    await sequelize.query('ALTER SEQUENCE posts_id_seq RESTART WITH 1');
+
     await Comment.destroy({ where: {} });
+    await sequelize.query('ALTER SEQUENCE comments_id_seq RESTART WITH 1');
+
     await Like.destroy({ where: {} });
+    await sequelize.query('ALTER SEQUENCE likes_id_seq RESTART WITH 1');
+
     await Category.destroy({ where: {} });
+    await sequelize.query('ALTER SEQUENCE categories_id_seq RESTART WITH 1');
+
     await User.destroy({ where: {} });
+    await sequelize.query('ALTER SEQUENCE users_id_seq RESTART WITH 1');
 
     console.log('Data successfully deleted!');
   } catch (err) {

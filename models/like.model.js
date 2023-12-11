@@ -51,7 +51,11 @@ Like.findAllPopulated = async function(conditions, sort, paginate, fields) {
   });
 };
 
-Like.belongsTo(User, { as: 'authorInfo', foreignKey: 'author' });
+Like.belongsTo(User, {
+  as: 'authorInfo',
+  foreignKey: 'author',
+  onDelete: 'CASCADE'
+});
 // Like.belongsTo(Post);
 
 module.exports = Like;

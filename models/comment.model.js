@@ -74,6 +74,10 @@ Comment.findAllPopulated = async function(conditions, sort, paginate, fields) {
   });
 };
 
-Comment.belongsTo(User, { as: 'authorInfo', foreignKey: 'author' });
+Comment.belongsTo(User, {
+  as: 'authorInfo',
+  foreignKey: 'author',
+  onDelete: 'CASCADE'
+});
 
 module.exports = Comment;

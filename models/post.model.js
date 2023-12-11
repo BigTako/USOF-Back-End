@@ -2,6 +2,7 @@ const { sequelize, Sequelize } = require('../models/index');
 const { DataTypes, Op } = require('sequelize');
 const User = require('./user.model'); // replace './user.model' with the actual path to the User model
 const Like = require('./like.model');
+const Comment = require('./comment.model');
 const Post = sequelize.define(
   'post',
   {
@@ -9,6 +10,7 @@ const Post = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       foreignKey: true,
+
       references: {
         model: User,
         key: 'id'
@@ -87,8 +89,12 @@ Post.findAllPopulated = function(conditions, fields, sort, paginate) {
   });
 };
 
-Post.belongsTo(User, { as: 'authorInfo', foreignKey: 'author' });
-User.hasMany(Post, { as: 'posts', foreignKey: 'author' });
-Post.hasMany(Like, { as: 'likes', foreignKey: 'entity_id' });
+Post.belongsTo(User, {
+  as: 'authorInfo',
+  foreignKey: 'author',
+  onDelete: 'CASCADE'
+});
+
+User.hasMany(Post, { as: 'posts', foreignKey: 'author', onDelete: 'CASCADE' });
 
 module.exports = Post;

@@ -6,7 +6,8 @@
     "categories": [
       32
     ],
-    "publishDate": "2015-08-02T00:00:00.000Z"
+    "publishDate": "2015-08-02T00:00:00.000Z",
+    "likesCount": 1
   },
   {
     "id": 2,
@@ -17,7 +18,9 @@
       4,
       7
     ],
-    "publishDate": "2016-08-02T00:00:00.000Z"
+    "publishDate": "2016-08-02T00:00:00.000Z",
+    "likesCount": 3,
+    "dislikesCount": 1
   },
   {
     "id": 3,

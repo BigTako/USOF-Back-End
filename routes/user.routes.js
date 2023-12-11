@@ -35,7 +35,7 @@ router
   .route('/:id')
   .get(authController.restrictTo('admin'), userController.getUser)
   .patch(
-    authController.restrictTo('admin'),
+    authController.restrictTo('user', 'admin'),
     userController.uploadUserPhoto,
     userController.resizeUserPhoto,
     userController.catchProfilePicture,
