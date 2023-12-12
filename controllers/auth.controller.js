@@ -234,11 +234,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
   try {
-    const resetURL = `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/auth/resetPassword/${resetToken}`;
+    const resetURL = `${process.env.HOST}/resetPassword/${resetToken}`;
     await new Email(user, resetURL).sendPasswordReset(
-      'Please, reset your account password by sending PATCH request to URL (token expires in 10 ). Reset URL:'
+      'Reset your password to transfering by this url URL (token expires in 10 ). Reset URL:'
     );
 
     res.status(200).json({
@@ -277,11 +275,13 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));
   }
+
+  console.log(req.body);
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
-  await user.save();
+  await user.save({ validate: false });
 
   // 3) Update changedPasswordAt property for the user
   // 4) Log the user in, send JWT

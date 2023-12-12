@@ -12,16 +12,12 @@ exports.getAll = Model =>
       .paginage()
       .getOptions();
 
-    const docs = await Model.findAllPopulated(
-      selectOptions.conditions,
-      selectOptions.fields,
-      selectOptions.sort,
-      selectOptions.paginate
-    );
+    const docs = await Model.findAllPopulated(selectOptions);
 
     // console.log(docs);
     await res.status(200).json({
       status: 'success',
+      count: docs.length,
       docs
     });
   });
@@ -35,12 +31,12 @@ exports.getOne = Model => {
       .paginage()
       .getOptions();
     // const doc = await Model.findByPk(req.params.id);
-    const [doc] = await Model.findAllPopulated(
-      { ...selectOptions.conditions, id: req.params.id },
-      selectOptions.fields,
-      selectOptions.sort,
-      selectOptions.paginate
-    );
+    const [doc] = await Model.findAllPopulated({
+      conditions: { ...selectOptions.conditions, id: req.params.id },
+      fields: selectOptions.fields,
+      sort: selectOptions.sort,
+      paginage: selectOptions.paginate
+    });
     if (!doc) {
       return next(new AppError('No document found with that ID', 404));
     }
@@ -76,7 +72,7 @@ exports.updateOne = (Model, allowedFields) =>
       filteredBody = req.body;
     }
 
-    if (req.user.role !== 'admin' && req.user.id !== doc.authorId) {
+    if (req.user.role !== 'admin' && req.user.id !== doc.author) {
       return next(
         new AppError('You are not allowed to perform this action', 403)
       );
@@ -98,7 +94,7 @@ exports.deleteOne = Model =>
 
     if (
       !req.user ||
-      (req.user.role !== 'admin' && req.user.id !== doc.authorId)
+      (req.user.role !== 'admin' && req.user.id !== doc.author)
     ) {
       return next(
         new AppError('You are not allowed to perform this action', 403)
@@ -126,17 +122,18 @@ exports.getEntityData = (Model, entityName) =>
       .sort()
       .paginage()
       .getOptions();
-
-    const docs = await Model.findAllPopulated(
-      {
+    console.log(selectOptions);
+    // conditions, fields, sort, paginate
+    const docs = await Model.findAllPopulated({
+      conditions: {
         ...selectOptions.conditions,
         entity: entityName.toLowerCase(),
         entity_id: req.params.id
       },
-      selectOptions.fields,
-      selectOptions.sort,
-      selectOptions.paginate
-    );
+      fields: selectOptions.fields,
+      sort: selectOptions.sort,
+      paginate: selectOptions.paginate
+    });
 
     // console.log(docs);
     await res.status(200).json({

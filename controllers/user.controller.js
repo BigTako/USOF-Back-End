@@ -134,8 +134,10 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('No user found with that ID', 404));
   }
+
   user.active = false;
   await user.save();
+
   res.status(204).json({
     status: 'success',
     data: null
@@ -154,7 +156,7 @@ exports.getRating = catchAsync(async (req, res, next) => {
       UNION ALL
       SELECT -1 * "dislikesCount", author as id FROM comments
     ) AS likes
-    WHERE likes.id = ${sequelize.escape(req.user.id)}
+    WHERE likes.id = ${sequelize.escape(req.params.id)}
   `);
 
   const rating = results[0].sum;

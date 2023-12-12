@@ -3,6 +3,8 @@ const router = express.Router();
 const userController = require('../controllers/user.controller');
 const authController = require('../controllers/auth.controller');
 
+router.get('/rating/:id', userController.getRating);
+
 router.use(authController.protect);
 
 router
@@ -26,8 +28,6 @@ router
     userController.updateMe
   )
   .delete(userController.deleteMe);
-
-router.get('/me/rating', userController.getRating);
 
 router.route('/updatePassword').patch(userController.updatePassword);
 

@@ -31,7 +31,7 @@ const User = sequelize.define(
     profilePicture: {
       type: Sequelize.STRING,
       allowNull: true,
-      defaultValue: 'default.jpg'
+      defaultValue: 'http://127.0.0.1:3000/img/users/default.png'
     },
     rating: {
       type: Sequelize.VIRTUAL
@@ -128,6 +128,13 @@ User.beforeCreate(async (user, options) => {
   user.passwordConfirm = ''; // set to undefined, because it`s raw password
 });
 
+User.beforeSave(async (user, options) => {
+  if (!user.changed('password')) return;
+  user.password = await bcrypt.hash(user.password, 12);
+  user.passwordChangedAt = Date.now() - 1000; // subtract a second
+  user.passwordConfirm = ''; // set to undefined, because it`s raw password
+});
+
 /**
  * Checks if password was changed before JWT token was issued,
  * so before the login.
@@ -160,7 +167,7 @@ User.prototype.createPasswordResetToken = function() {
     .update(resetToken)
     .digest('hex');
 
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; //10 minutes
+  this.passwordResetTokenExpires = Date.now() + 10 * 60 * 1000; //10 minutes
 
   return resetToken;
 };
@@ -168,7 +175,7 @@ User.prototype.createPasswordResetToken = function() {
 User.findAllPopulated = async function(conditions, sort, paginate, fields) {
   return await this.findAll({
     where: conditions,
-    order: sort,
+    order: options?.sort ? [options?.sort] : undefined,
     limit: paginate ? paginate.limit : undefined,
     offset: paginate ? paginate.offset : undefined,
     attributes: {

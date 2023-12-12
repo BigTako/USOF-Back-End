@@ -57,13 +57,13 @@ const Comment = sequelize.define(
   }
 );
 
-Comment.findAllPopulated = async function(conditions, sort, paginate, fields) {
+Comment.findAllPopulated = async function(options) {
   return await this.findAll({
-    where: conditions,
-    order: sort,
-    limit: paginate?.limit,
-    offset: paginate?.offset,
-    attributes: fields,
+    where: options?.conditions,
+    order: options?.sort ? [options?.sort] : undefined,
+    limit: options?.paginate?.limit,
+    offset: options?.paginate?.offset,
+    attributes: options?.fields,
     include: [
       {
         model: User,

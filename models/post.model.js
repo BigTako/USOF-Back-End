@@ -1,8 +1,7 @@
 const { sequelize, Sequelize } = require('../models/index');
 const { DataTypes, Op } = require('sequelize');
 const User = require('./user.model'); // replace './user.model' with the actual path to the User model
-const Like = require('./like.model');
-const Comment = require('./comment.model');
+
 const Post = sequelize.define(
   'post',
   {
@@ -63,13 +62,13 @@ const Post = sequelize.define(
   }
 );
 
-Post.findAllPopulated = function(conditions, fields, sort, paginate) {
+Post.findAllPopulated = function(options) {
   return this.findAll({
-    where: conditions,
-    order: sort ? [sort] : undefined,
-    limit: paginate?.limit,
-    offset: paginate?.offset,
-    attributes: fields,
+    where: options?.conditions,
+    order: options?.sort ? [options?.sort] : undefined,
+    limit: options?.paginate?.limit,
+    offset: options?.paginate?.offset,
+    attributes: options?.fields,
     exclude: ['password', 'passwordConfirm'],
     include: [
       {

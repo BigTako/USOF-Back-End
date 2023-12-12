@@ -13,7 +13,7 @@ router.get('/me', authController.protect, postController.getCurrentUserPosts);
 router
   .route('/:id')
   .get(postController.getPost)
-  .patch(postController.updatePost)
-  .delete(postController.deletePost);
+  .patch(authController.protect, postController.updatePost)
+  .delete(authController.protect, postController.deletePostCascade);
 
 module.exports = router;

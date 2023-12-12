@@ -67,20 +67,18 @@ const importData = async () => {
 // DELETE ALL DATA FROM DB
 const deleteData = async () => {
   try {
-    await Post.destroy({ where: {} });
-    await sequelize.query('ALTER SEQUENCE posts_id_seq RESTART WITH 1');
+    // Check the database connection
+    await sequelize.query('DROP SCHEMA public CASCADE;');
 
-    await Comment.destroy({ where: {} });
-    await sequelize.query('ALTER SEQUENCE comments_id_seq RESTART WITH 1');
+    // Recreate the public schema
+    await sequelize.query('CREATE SCHEMA public;');
 
-    await Like.destroy({ where: {} });
-    await sequelize.query('ALTER SEQUENCE likes_id_seq RESTART WITH 1');
-
-    await Category.destroy({ where: {} });
-    await sequelize.query('ALTER SEQUENCE categories_id_seq RESTART WITH 1');
-
-    await User.destroy({ where: {} });
-    await sequelize.query('ALTER SEQUENCE users_id_seq RESTART WITH 1');
+    // Recreate the tables
+    await User.sync({ force: true });
+    await Post.sync({ force: true });
+    await Comment.sync({ force: true });
+    await Like.sync({ force: true });
+    await Category.sync({ force: true });
 
     console.log('Data successfully deleted!');
   } catch (err) {
