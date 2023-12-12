@@ -7,13 +7,14 @@ const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const sharp = require('sharp');
 
+const handlerFactory = require('./handlerFactory');
+const multerStorage = multer.memoryStorage(); // image will be stored as a buffer
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-const multerStorage = multer.memoryStorage(); // image will be stored as a buffer
 
 // set filter to filter not image type files
 const multerFilter = (req, file, cb) => {
@@ -48,12 +49,6 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   next();
 });
 
-const handlerFactory = require('./handlerFactory');
-
-exports.getAllUsers = handlerFactory.getAll(User);
-exports.getUser = handlerFactory.getOne(User);
-exports.deleteUser = handlerFactory.deleteOne(User);
-
 exports.catchProfilePicture = catchAsync(async function(req, res, next) {
   if (req.file) {
     req.body.profilePicture = `http://127.0.0.1:3000/img/users/${req?.file?.filename}`;
@@ -61,8 +56,17 @@ exports.catchProfilePicture = catchAsync(async function(req, res, next) {
   next();
 });
 
+exports.getAllUsers = handlerFactory.getAll(User);
+exports.getUser = handlerFactory.getOne(User);
+exports.deleteUser = handlerFactory.deleteOne(User);
 exports.createUser = handlerFactory.createOne(User);
-exports.updateUser = handlerFactory.updateOne(User);
+exports.updateUser = handlerFactory.updateOne(User, [
+  'profilePicture',
+  'fullName',
+  'login',
+  'email',
+  'role'
+]);
 
 exports.getMe = catchAsync(async (req, res, next) => {
   const user = await User.findOneActive(req.user.id);
@@ -90,13 +94,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   if (!doc) {
     return next(new AppError('No document found with that ID', 404));
   }
-
-  // let filteredBody;
-  // if (allowedFields && allowedFields.length > 0) {
-  //   filteredBody = filtration(req.body, ...allowedFields);
-  // } else {
-  //   filteredBody = req.body;
-  // }
 
   await doc.update(req.body);
   await res.status(200).json({

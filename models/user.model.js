@@ -172,14 +172,14 @@ User.prototype.createPasswordResetToken = function() {
   return resetToken;
 };
 
-User.findAllPopulated = async function(conditions, sort, paginate, fields) {
+User.findAllPopulated = async function(options) {
   return await this.findAll({
-    where: conditions,
+    where: options?.conditions,
     order: options?.sort ? [options?.sort] : undefined,
-    limit: paginate ? paginate.limit : undefined,
-    offset: paginate ? paginate.offset : undefined,
+    limit: options?.paginate ? options?.paginate.limit : undefined,
+    offset: options?.paginate ? options?.paginate.offset : undefined,
     attributes: {
-      include: fields,
+      include: options?.fields,
       exclude: ['password', 'passwordConfirm']
     }
   });

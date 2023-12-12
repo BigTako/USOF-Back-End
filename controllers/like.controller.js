@@ -10,9 +10,11 @@ exports.getLike = handlerFactory.getOne(Like);
 
 exports.createLike = catchAsync(async (req, res, next) => {
   let [like] = await Like.findAllPopulated({
-    author: req.user.id,
-    entity_id: req.body.entity_id,
-    entity: req.body.entity
+    conditions: {
+      author: req.user.id,
+      entity_id: req.body.entity_id,
+      entity: req.body.entity
+    }
   });
 
   req.body.author = req.user.id;
