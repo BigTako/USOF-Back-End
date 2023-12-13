@@ -11,6 +11,25 @@
 > Be attentive to set DB name to `usof-backed-db` and password to `root` as it's writen in `config/db.config.js` file. If you want to change settings, just remember also to change them in config file.
 > Finally, run command `npm run start:dev` which will launch project in DEV mode.
 
+# Also needed
+
+### Also do not forget to create `config.env` file which will look like that:
+
+NODE_ENV="development" (or "production")
+PORT=3000 (or select your port)
+HOST=(frontent host here, this host will handle all routes with emails, if you dont have one, just specify server `http://127.0.0.1:3000/api/v1/`)
+
+JWT_SECRET=(create some passphrase)
+JWT_EXPIRES_IN=90d
+
+JWT_COOKIE_EXPIRES_IN=90
+
+EMAIL_USERNAME=(specify email sender here)
+EMAIL_PASSWORD=(gmail passkey here)
+EMAIL_SERVICE=gmail(by default)
+
+EMAIL_FROM=(your company)
+
 # Endpoints:
 
 > [Auth Module](#Auth-Module)
