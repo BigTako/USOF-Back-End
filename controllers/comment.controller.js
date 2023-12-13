@@ -57,10 +57,7 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
     return next(new AppError('No document found with that ID', 404));
   }
 
-  if (
-    !req.user ||
-    (req.user.role !== 'admin' && req.user.id !== doc.authorId)
-  ) {
+  if (!req.user || (req.user.role !== 'admin' && req.user.id !== doc.author)) {
     return next(
       new AppError('You are not allowed to perform this action', 403)
     );

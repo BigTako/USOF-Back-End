@@ -2,6 +2,12 @@
 
 [Postman collection for testing API](https://documenter.getpostman.com/view/27994867/2s9YkjANjN)
 
+- #### Techology Stack
+
+  [![BackEnd](https://skillicons.dev/icons?i=js,nodejs,express,postgres,sequelize&perline=4)](https://skillicons.dev)
+
+  _And also JWT for authorization, Nodemailer and Postman for testing API._
+
 # How to run:
 
 > To run API , firstly clone my repository with API using `git clone https://github.com/BigTako/USOF-Back-End.git`.
