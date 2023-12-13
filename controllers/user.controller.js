@@ -1,6 +1,5 @@
 const { sequelize } = require('../models');
 const User = require('../models/user.model');
-const ApiFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const bcrypt = require('bcryptjs');
@@ -76,7 +75,7 @@ exports.getMe = catchAsync(async (req, res, next) => {
   }
   res.status(200).json({
     status: 'success',
-    data: user
+    doc: user
   });
 });
 
@@ -110,13 +109,19 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('No user found with that ID', 404));
   }
+  const candidate = await bcrypt.hash(password, 12);
+
+  console.log(user.password, candidate);
+  console.log(passwordCurrent, password, passwordConfirm);
+
   if (!(await User.correctPassword(passwordCurrent, user.password))) {
     return next(new AppError('Your current password is wrong', 401));
   }
   if (password !== passwordConfirm) {
     return next(new AppError('Passwords do not match', 401));
   }
-  user.password = await bcrypt.hash(password, 12);
+
+  user.password = password;
   user.passwordConfirm = '';
   await user.save();
 
@@ -160,6 +165,6 @@ exports.getRating = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: rating
+    doc: rating
   });
 });

@@ -12,7 +12,12 @@ exports.getAllPosts = handlerFactory.getAll(Post);
 exports.getPost = handlerFactory.getOne(Post);
 
 exports.createPost = handlerFactory.createOne(Post);
-exports.updatePost = handlerFactory.updateOne(Post);
+exports.updatePost = handlerFactory.updateOne(Post, [
+  'title',
+  'status',
+  'categories',
+  'content'
+]);
 exports.deletePost = handlerFactory.deleteOne(Post);
 
 exports.deletePostCascade = catchAsync(async (req, res, next) => {

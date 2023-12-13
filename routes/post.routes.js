@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', postController.getAllPosts);
 
-router.post('/', postController.createPost);
+router.post('/', authController.protect, postController.createPost);
 
 // query to get current user posts here
 router.get('/me', authController.protect, postController.getCurrentUserPosts);

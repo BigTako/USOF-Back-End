@@ -49,7 +49,9 @@ exports.getOne = Model => {
 
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.create(req.body);
+    const body = { ...req.body, author: req.user.id };
+
+    const doc = await Model.create(body);
 
     await res.status(201).json({
       status: 'success',
@@ -122,7 +124,6 @@ exports.getEntityData = (Model, entityName) =>
       .sort()
       .paginage()
       .getOptions();
-    console.log(selectOptions);
     // conditions, fields, sort, paginate
     const docs = await Model.findAllPopulated({
       conditions: {

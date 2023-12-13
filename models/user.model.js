@@ -59,6 +59,10 @@ const User = sequelize.define(
       type: Sequelize.DATE,
       allowNull: true
     },
+    passwordChangedAt: {
+      type: Sequelize.DATE,
+      allowNull: true
+    },
     passwordResetToken: {
       type: Sequelize.STRING,
       allowNull: true
@@ -130,9 +134,11 @@ User.beforeCreate(async (user, options) => {
 
 User.beforeSave(async (user, options) => {
   if (!user.changed('password')) return;
+  console.log('before before save', user.password);
   user.password = await bcrypt.hash(user.password, 12);
   user.passwordChangedAt = Date.now() - 1000; // subtract a second
   user.passwordConfirm = ''; // set to undefined, because it`s raw password
+  console.log('User saved', user.password);
 });
 
 /**
