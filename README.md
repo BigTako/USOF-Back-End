@@ -4,7 +4,7 @@
 
 - #### Techology Stack
 
-  [![BackEnd](https://skillicons.dev/icons?i=js,nodejs,express,postgres,sequelize&perline=4)](https://skillicons.dev)
+  [![BackEnd](https://skillicons.dev/icons?i=nodejs,express,postgres,sequelize&perline=4)](https://skillicons.dev)
 
   _And also JWT for authorization, Nodemailer and Postman for testing API._
 
