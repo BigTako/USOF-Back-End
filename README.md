@@ -209,18 +209,18 @@ Supports query selection fiels:
 
 Here:
 
-> fields = use `fields` parameter to select only defined fields in each of returned documents.
-> sort - use `sort` parameter to sort by any field of Post model `sort=field`.
-> order - use `order` parameter to change order of sorting `order=asc|desc`, `asc` by default.
-> limit - use `limit` parameter to limit the number of posts to be returned.
-> page - use `page` to divide returned docs into groups(size of group defined by `limit`).
-> Any other fields will be considered as 'filters' , you can user them by passing `field[operator]=value`.
-> Operators are:
-> `[gt]` - greater than value(Number fields)
-> `[lt]` - less than value(Number fields)
-> `[gte]` - greater that or equal to value(Number fields)
-> `[lte]` - less than or equal to value(Number fields)
-> `[cont]` - `field` as it Array, contains every element from `value`(also Array).
+- fields = use `fields` parameter to select only defined fields in each of returned documents.
+- sort - use `sort` parameter to sort by any field of Post model `sort=field`.
+- order - use `order` parameter to change order of sorting `order=asc|desc`, `asc` by default.
+- limit - use `limit` parameter to limit the number of posts to be returned.
+- page - use `page` to divide returned docs into groups(size of group defined by `limit`).
+- Any other fields will be considered as 'filters' , you can user them by passing `field[operator]=value`.
+- Operators are:
+- `[gt]` - greater than value(Number fields)
+- `[lt]` - less than value(Number fields)
+- `[gte]` - greater that or equal to value(Number fields)
+- `[lte]` - less than or equal to value(Number fields)
+- `[cont]` - `field` as it Array, contains every element from `value`(also Array).
 
 ### Get Post By ID
 
