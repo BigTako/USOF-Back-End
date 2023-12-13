@@ -75,6 +75,7 @@ exports.restrictTo = (...roles) => {
 
 exports.signUp = catchAsync(async (req, res, next) => {
   const activationToken = crypto.randomBytes(32).toString('hex');
+  console.log(req.body);
   const newUser = await User.create({
     login: req.body.login,
     fullName: req.body.fullName,
@@ -119,18 +120,16 @@ exports.activateAccount = catchAsync(async (req, res, next) => {
     return next(new AppError('Token is invalid or has expired', 400));
   }
 
-  if (user) {
-    await user.update(
-      {
-        accountActivationToken: null,
-        accountActivationExpires: null,
-        activated: true
-      },
-      {
-        validate: false
-      }
-    );
-  }
+  await user.update(
+    {
+      accountActivationToken: null,
+      accountActivationExpires: null,
+      activated: true
+    },
+    {
+      validate: false
+    }
+  );
 
   this.createSendToken(user, 200, res);
 });
